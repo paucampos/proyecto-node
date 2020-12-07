@@ -1,0 +1,44 @@
+{
+    "name": "proyecto-final",
+    "version": "1.0.0",
+    "description": "Proyecto final para curso node escalab",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "local": "nodemon app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/paucampos/proyecto-node.git"
+    },
+    "keywords": [
+        "node"
+    ],
+    "author": "Paula Campos",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cookie-parser": "^1.4.4",
+        "cors": "^2.8.5",
+        "dotenv": "^8.0.0",
+        "express": "^4.16.4",
+        "express-jwt": "^5.3.1",
+        "express-validator": "^5.3.1",
+        "formidable": "^1.2.1",
+        "jsonwebtoken": "^8.5.1",
+        "lodash": "^4.17.11",
+        "moment": "^2.24.0",
+        "mongoose": "^5.5.5",
+        "morgan": "^1.9.1",
+        "swagger-jsdoc": "^3.4.0",
+        "swagger-ui-express": "^4.0.7",
+        "uuid": "^3.3.2"
+    },
+    "devDependencies": {
+        "nodemon": "^1.19.0"
+    },
+    "bugs": {
+        "url": "https://github.com/paucampos/proyecto-node/issues"
+    },
+    "homepage": "https://github.com/paucampos/proyecto-node#readme"
+}
