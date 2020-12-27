@@ -14,7 +14,6 @@ const connectionUrl = `mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`;
 const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
 
-
 const app = express();
 
 // connection to db
@@ -37,19 +36,42 @@ const db = async() => {
 db();
 
 // Middlewares
+app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
 app.use(cors());
 
+// Extended: https://swagger.io/specification/#infoObject
+const swaggerOptions = {
+    swaggerDefinition: {
+        openapi: '3.0.0',
+        info: {
+            version: "1.0.0",
+            title: "Hospital API",
+            description: "Hospital API Information",
+            contact: {
+                name: "pau_campos"
+            },
+            servers: ["http://localhost:3002"]
+        }
+    },
+    // definition the apis with swagger 
+    apis: ['./routes/*.js']
+};
+
+// final definitions with swagger-express
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 // Routes middlewares
 app.use("/api", userRoutes);
 app.use("/api", authRoutes);
 
-
+// port
 const port = process.env.PORT || 3001;
 
 // Listen port
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
-})
+});

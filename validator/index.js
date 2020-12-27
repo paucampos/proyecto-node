@@ -12,7 +12,6 @@ exports.userSignupValidator = (req, res, next) => {
         .matches(/\d/).withMessage("El password debe contener números");
     req.check("role")
         .matches(/\b(?:ADMIN_ROLE|USER_ROLE)\b/).withMessage("Rol no permitido")
-        // .matches("USER_ROLE").withMessage("Rol no permitido")
     const errors = req.validationErrors();
     if (errors) {
         const firstError = errors.map(error => error.msg)[0];

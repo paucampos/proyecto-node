@@ -3,14 +3,15 @@ const crypto = require("crypto");
 const uuidv1 = require("uuid/v1");
 
 const userSchema = new mongoose.Schema({
-    name: { type: String, required: true, trim: true, maxlength: 32 },
-    email: { type: String, unique: true, required: true, trim: true },
-    hashed_password: { type: String, required: true },
-    salt: String,
-    img: { type: String, required: false },
-    role: { type: String, required: true, default: 'USER_ROLE' },
-    google: { type: Boolean, default: false }
-});
+        name: { type: String, required: true, trim: true, maxlength: 32 },
+        email: { type: String, unique: true, required: true, trim: true },
+        hashed_password: { type: String, required: true },
+        salt: String,
+        img: { type: String, required: false },
+        role: { type: String, required: true, default: 'USER_ROLE' },
+        google: { type: Boolean, default: false }
+    }, { timestamps: true } // Agrega fecha creacion y actualización
+);
 
 // campos virtuales
 userSchema
@@ -21,9 +22,7 @@ userSchema
         this.hashed_password = this.encryptPassword(password);
     }).get(function() {
         return this._password;
-    })
-
-
+    });
 
 // Metodos
 userSchema.methods = {
