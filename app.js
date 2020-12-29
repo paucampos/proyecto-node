@@ -13,6 +13,7 @@ const connectionUrl = `mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`;
 // Routes
 const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
+const hospitalRoutes = require("./routes/hospital");
 
 const app = express();
 
@@ -53,7 +54,7 @@ const swaggerOptions = {
             contact: {
                 name: "pau_campos"
             },
-            servers: ["http://localhost:3002"]
+            servers: ["http://localhost:3000"]
         }
     },
     // definition the apis with swagger 
@@ -67,6 +68,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // Routes middlewares
 app.use("/api", userRoutes);
 app.use("/api", authRoutes);
+app.use("/api", hospitalRoutes);
 
 // port
 const port = process.env.PORT || 3001;
