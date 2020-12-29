@@ -1,10 +1,12 @@
 const User = require("../models/user");
+const { errorHandler } = require("../helpers/dbErrorHandler");
 
 exports.userById = (req, res, next, id) => {
     User.findById(id).exec((err, user) => {
         if (err || !user) {
             return res.status(400).json({
-                error: "Usuario no encontrado"
+                ok: false,
+                message: "Usuario no encontrado"
             });
         }
         req.profile = user;
@@ -23,7 +25,7 @@ exports.listUsers = (req, res) => {
                 return res.status(400).json({
                     ok: false,
                     message: 'Usuarios no encontrados',
-                    erorors: err
+                    erorors: errorHandler(err)
                 });
             }
             // Agregar contador de usuarios
@@ -32,7 +34,7 @@ exports.listUsers = (req, res) => {
                     return res.status(500).json({
                         ok: false,
                         message: 'Error al contar usuarios',
-                        errors: error
+                        errors: errorHandler(error)
                     });
                 }
                 res.status(200).json({
@@ -54,8 +56,8 @@ exports.deleteUser = (req, res) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error al eliminar usuario',
-                errors: err
+                message: 'Error al eliminar usuario',
+                errors: errorHandler(err)
             });
         }
 
@@ -74,12 +76,17 @@ exports.updateUser = (req, res) => {
         (err, user) => {
             if (err) {
                 return res.status(400).json({
-                    error: "No estás autorizado para realizar esta acción"
+                    ok: false,
+                    message: "No estás autorizado para realizar esta acción",
+                    error: errorHandler(err)
                 });
             }
             user.hashed_password = undefined;
             user.salt = undefined;
-            res.json(user);
+            res.json({
+                ok: true,
+                user
+            });
         }
     );
 }
