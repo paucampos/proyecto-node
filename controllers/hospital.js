@@ -5,10 +5,10 @@ exports.hospitalById = (req, res, next, id) => {
     Hospital.findById(id).exec((err, hospital) => {
         if (err || !hospital) {
             return res.status(404).json({
+                ok: false,
                 error: "El hospital no existe"
             });
         }
-        console.log("HOSPITAL:", hospital);
         req.hospital = hospital;
         next();
     });
@@ -18,13 +18,11 @@ exports.hospitalById = (req, res, next, id) => {
 // Crear hospital
 //=============================
 exports.create = (req, res) => {
-    console.log("REQ", req);
     const hospital = new Hospital({
         name: req.body.name,
         user: req.profile._id
     });
     hospital.save((err, data) => {
-        console.error("Error", err);
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -153,7 +151,7 @@ exports.updateHospital = (req, res) => {
 // Obtener Hospital por ID
 // ==========================================
 exports.getById = (req, res) => {
-    const id = req.params.hospitalId;
+    const id = req.hospital._id;
 
     Hospital.findById(id)
         .populate('user', 'name img email')
