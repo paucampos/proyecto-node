@@ -52,21 +52,21 @@ exports.signin = (req, res) => {
             ok: true,
             token,
             user: { _id, name, email, role },
-            menu: obtenerMenu(userDb.role)
+            menu: getMenu(userDb.role)
         });
     });
 };
 
-function obtenerMenu(ROLE) {
+function getMenu(ROLE) {
     let menu = [{
             titulo: "Principal",
             icono: "mdi mdi-gauge",
             submenu: [
                 { titulo: "Dashboard", url: "/dashboard" },
-                { titulo: "ProgressBar", url: "/progress" },
-                { titulo: "Gráficas", url: "/graficas" },
-                { titulo: "Promesas", url: "/promesas" },
-                { titulo: "Rxjs", url: "/rxjs" }
+                { titulo: "Ejemplo1", url: "/ejemplo1" },
+                { titulo: "Ejemplo2", url: "/ejemplo2" },
+                { titulo: "Ejemplo3", url: "/ejemplo3" },
+                { titulo: "Ejemplo4", url: "/ejemplo4" }
             ]
         },
         {
@@ -74,7 +74,7 @@ function obtenerMenu(ROLE) {
             icono: "mdi mdi-folder-lock-open",
             submenu: [
                 { titulo: "Hospitales", url: "/hospitales" },
-                { titulo: "Doctor", url: "/doctores" }
+                { titulo: "Doctores", url: "/doctores" }
             ]
         }
     ];
@@ -95,7 +95,7 @@ exports.requireSignin = expressJwt({
 });
 
 exports.isAuth = (req, res, next) => {
-    let user = req.profile && req.auth && req.profile._id == req.auth._id;
+    const user = req.profile && req.auth && req.profile._id == req.auth._id;
     if (!user) {
         return res.status(403).json({
             error: "Acceso denegado"
@@ -107,8 +107,29 @@ exports.isAuth = (req, res, next) => {
 exports.isAdmin = (req, res, next) => {
     if (req.profile.role !== 'ADMIN_ROLE') {
         return res.status(403).json({
+            ok: false,
             error: "Acceso denegado, necesita permisos de Administrador"
         });
     }
     next();
+};
+
+//================================
+// Verificar admin o mismo usuario      
+//================================
+exports.isAdminOrSameUser = (req, res, next) => {
+    const user = req.profile;
+    const id = req.params.userId;
+
+    if (user.role == 'ADMIN_ROLE' || user._id == id) {
+        next();
+    } else {
+        return res.status(401).json({
+            ok: false,
+            mensaje: 'Token incorrecto - No es admin, ni mismo user',
+            errors: {
+                message: 'Acceso denegado, necesita permisos de Administrador o editar su propio usuario'
+            }
+        });
+    }
 };

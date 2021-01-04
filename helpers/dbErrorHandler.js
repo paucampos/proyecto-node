@@ -30,8 +30,8 @@ exports.errorHandler = error => {
                 message = "Algo ha ido mal";
         }
     } else {
-        for (let errorName in error.errorors) {
-            if (error.errorors[errorName].message) message = error.errorors[errorName].message;
+        for (let errorName in error.errors) {
+            if (error.errors[errorName].message) message = error.errors[errorName].message;
         }
     }
     return message;

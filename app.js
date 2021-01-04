@@ -14,6 +14,7 @@ const connectionUrl = `mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`;
 const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
 const hospitalRoutes = require("./routes/hospital");
+const doctorlRoutes = require("./routes/doctor");
 
 const app = express();
 
@@ -69,6 +70,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use("/api", userRoutes);
 app.use("/api", authRoutes);
 app.use("/api", hospitalRoutes);
+app.use("/api", doctorlRoutes);
 
 // port
 const port = process.env.PORT || 3001;

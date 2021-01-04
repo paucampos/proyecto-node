@@ -8,27 +8,30 @@ const { signup, signin, signout } = require("../controllers/auth");
 router.post("/signup", userSignupValidator, signup);
 
 /**
- * @swagger   
- * /api/signin: 
- *  post:
- *    summary: signin user
- *    description: Use to request signin user
- *    requestBody: 
- *      content:
- *        application/json:
- *          schema:
- *            properties:
- *              email:
- *                  type: string
- *                  description: email user valid
- *              password:
- *                  type: string
- *                  description: password user valid
- *    responses:
- *      "200":
- *         description: A successful response
- *      "400":
- *         description: A bad request response
+ * @swagger
+ * paths:
+ *   /api/signin: 
+ *    post:
+ *      tags:
+ *      - name: "Autenticación"
+ *      summary: Loggear usuario
+ *      description: El usuario requiere loggearse 
+ *      requestBody: 
+ *        content:
+ *          application/json:
+ *            schema:
+ *              properties:
+ *                email:
+ *                    type: string
+ *                    description: Email de usuario válido
+ *                password:
+ *                    type: string
+ *                    description: Password de usuario válido
+ *      responses:
+ *        "200":
+ *           description: Respuesta exitósa
+ *        "400":
+ *           description: Respuesta para petición inválida
  */
 router.post("/signin", signin);
 
@@ -36,11 +39,13 @@ router.post("/signin", signin);
  * @swagger
  * /api/signout:
  *  get:
- *    summary: signout user
- *    description: Use to request logout user
+ *    tags:
+ *    - name: "Autenticación"
+ *    summary: Usuario loggout
+ *    description: El usuario requiere desloggearse
  *    responses:
  *      "200":
- *        description: A successful response
+ *        description: Respuesta exitósa
  */
 router.get("/signout", signout);
 
